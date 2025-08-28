@@ -21,7 +21,7 @@ env:
 jobs:
   job1: 
     runs-on: ubuntu-latest
-     defaults:
+    # defaults:
       run:
         shell: bash
         working-directory: ./scripts
