@@ -1,0 +1,50 @@
+name: 'My First Work Flow'
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on:               # To automatically trigger a workflow
+  push:
+    branches:
+      - main
+      - 'freature/**'
+  pull_request:      # When using the pull_request and pull_request_target events, you can configure a workflow to run only for pull requests that target specific branches.
+    branches:
+      - main
+      - 'feature/**'
+  schedule:          # define a time schedule for your workflows, This example triggers the workflow every day at 5:30 and 17:30 UTC:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 5,17 * * *'    
+permissions: none
+#  read-all     # define one of read-all or write-all access for all of the available permissions
+# write-all    #  define one of read-all or write-all access for all of the available permissions
+# {}           #  disable permissions for all of the available permissions
+env:
+  server: production
+jobs:
+  job1: 
+    runs-on: ubuntu-latest
+     defaults:
+      run:
+        shell: bash
+        working-directory: ./scripts
+      steps:
+      - name: Print a greeting
+        env:
+          MY_VAR: Hi there! My name is
+          FIRST_NAME: Mona
+          MIDDLE_NAME: The
+          LAST_NAME: Octocat
+        run: |
+          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.  
+  
+    
+
+
+
+
+
+
+
+  
+  
+    
+    
+
