@@ -12,7 +12,7 @@ on:               # To automatically trigger a workflow
   schedule:          # define a time schedule for your workflows, This example triggers the workflow every day at 5:30 and 17:30 UTC:
     # * is a special character in YAML so you have to quote this string
     - cron:  '30 5,17 * * *'    
-permissions: none
+# permissions: none
 #  read-all     # define one of read-all or write-all access for all of the available permissions
 # write-all    #  define one of read-all or write-all access for all of the available permissions
 # {}           #  disable permissions for all of the available permissions
