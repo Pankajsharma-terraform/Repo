@@ -5,6 +5,9 @@ on: workflow_dispatch
   #   branches:
   #     - main
   #     - features/*
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   My_First_Job:
