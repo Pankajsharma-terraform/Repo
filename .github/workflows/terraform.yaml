@@ -1,10 +1,10 @@
 name: 'My First Work Flow'
 run-name: 'My first work'
-on: 
-  push:
-    branches:
-      - main
-      - features/*
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #     - main
+  #     - features/*
 runs-on: 'self hosted'
 jobs:
   dhondu maharaj
