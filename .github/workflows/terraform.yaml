@@ -5,9 +5,10 @@ on: workflow_dispatch
   #   branches:
   #     - main
   #     - features/*
-runs-on: 'self hosted'
+
 jobs:
   dhondu maharaj
+    runs-on: 'self-hosted'
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
@@ -18,7 +19,7 @@ jobs:
                   - name: Azure Login
     uses: Azure/login@v2.3.0
     with: pankaj-app-cicd
-     
+   
       
      
     
