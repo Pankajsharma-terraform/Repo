@@ -9,8 +9,18 @@ runs-on: 'self hosted'
 jobs:
   dhondu maharaj
   steps:
-    - name: dhondu maharaj
-      run: echo dhondu maharaj
+    - name: Checkout
+      uses: actions/checkout@v5.0.0
+       
+    - name: HashiCorp - Setup Terraform
+      uses: hashicorp/setup-terraform@v2.0.3
+      
+     
       
     
+       
+  
+              
+          
+        
 
