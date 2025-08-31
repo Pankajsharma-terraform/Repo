@@ -1,4 +1,4 @@
-name: 'My First Work Flow'
+# name: 'My_First_Work_Flow'
 run-name: 'My first work'
 on: workflow_dispatch
   # push:
@@ -7,8 +7,10 @@ on: workflow_dispatch
   #     - features/*
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
+  My_First_Job:
+    name: My First Job
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout
       uses: actions/checkout@v5.0.0
       working-directory: Repo/.github/workflows
