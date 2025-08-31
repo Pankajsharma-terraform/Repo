@@ -8,19 +8,19 @@ on: workflow_dispatch
 runs-on: 'self hosted'
 jobs:
   dhondu maharaj
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v5.0.0
-      working-directory: Repo/.github/workflows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+        working-directory: Repo/.github/workflows
        
-    - name: HashiCorp - Setup Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
-                - name: Azure Login
-  uses: Azure/login@v2.3.0
-  with: pankaj-app-cicd
-   
-    
-   
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+                  - name: Azure Login
+    uses: Azure/login@v2.3.0
+    with: pankaj-app-cicd
+     
+      
+     
     
     
  
