@@ -1,4 +1,4 @@
-# name: 'My_First_Work_Flow'
+name: 'My_First_Work_Flow'
 run-name: 'My first work'
 on: workflow_dispatch
   # push:
