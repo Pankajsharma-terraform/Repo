@@ -19,7 +19,8 @@ jobs:
       uses: hashicorp/setup-terraform@v2.0.3
     - name: Azure Login
       uses: Azure/login@v2.3.0
-      # with: pankaj-app-cicd
+      with: 
+        pankaj-app-cicd
    
       
      
