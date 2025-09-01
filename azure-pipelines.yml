@@ -71,6 +71,7 @@ jobs:
  
  
     - task: TerraformTask@5
+      displayName: Terraform Apply Task
       inputs:
         provider: 'azurerm'
         command: 'apply'
