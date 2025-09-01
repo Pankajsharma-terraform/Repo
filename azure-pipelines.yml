@@ -45,7 +45,7 @@ jobs:
 
   - job: ManualValidation
     displayName: Manual Validation Step
-    dependsOn: initvalidateplanjob
+    dependsOn: Planjob
     pool: server
     steps:
     - task: ManualValidation@1
@@ -69,6 +69,7 @@ jobs:
         backendAzureRmKey: 'terraform.tfstate'
  
   - job: applyjob
+    dependsOn: ManualValidation
     displayName: Apply Job
     steps:
     - task: TerraformTask@5
