@@ -2,7 +2,7 @@ trigger: none
 # - main
 # - features/*
 
-pool: Stream line project agent
+# pool: Stream line project agent
 
 jobs:
   - job: installerjob
@@ -13,7 +13,8 @@ jobs:
       displayName: Terraform Install
       inputs:
         terraformVersion: 'latest'
-  - job: initjob
+  
+  - job: initvalidateplanjob
     pool: Stream line project agent
     dependsOn: installerjob
     displayName: Init Job
@@ -28,21 +29,20 @@ jobs:
         backendAzureRmContainerName: 'streamlinecont'
         backendAzureRmKey: 'terraform.tfstate'
   
-  - job: validatejob
-    displayName: Validate job
-    pool: Stream line project agent
-    # dependsOn: initjob
-    steps:    
+  # - job: validatejob
+  #   displayName: Validate job
+  #   pool: Stream line project agent
+  #   dependsOn: initjob
+     
     - task: TerraformTask@5
       displayName: Terraform Validate Task
       inputs:
         provider: 'azurerm'
         command: 'validate'
-  - job: Planjob
-    displayName: Plan job
-    pool: Stream line project agent
-    dependsOn: validatejob
-    steps:    
+  # - job: Planjob
+  #   displayName: Plan job
+  #   pool: Stream line project agent
+  #   dependsOn: validatejob 
     - task: TerraformTask@5
       displayName: Plan Task
       inputs:
@@ -52,7 +52,7 @@ jobs:
 
   - job: ManualValidation
     displayName: Manual Validation Step
-    dependsOn: Planjob
+    dependsOn: initvalidateplanjob
     pool: server
     steps:
     - task: ManualValidation@1
@@ -77,14 +77,14 @@ jobs:
         backendAzureRmContainerName: 'streamlinecont'
         backendAzureRmKey: 'terraform.tfstate'
  
-  - job: applyjob
-    dependsOn: initjobaftermanualvalidation
-    displayName: Apply Job
-    pool: Stream line project agent
-    steps:
+  # - job: applyjob
+  #   dependsOn: initjobaftermanualvalidation
+  #   displayName: Apply Job
+  #   pool: Stream line project agent
+   
     - task: TerraformTask@5
       inputs:
         provider: 'azurerm'
         command: 'apply'
+        commandOptions: '-auto-approve'
         environmentServiceNameAzureRM: 'code stremline-sc'
-    
