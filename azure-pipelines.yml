@@ -12,7 +12,9 @@ jobs:
       displayName: Terraform Install
       inputs:
         terraformVersion: 'latest'
-
+  - job: initvalidateplanjob
+    displayName: Init Job
+    steps:
     - task: TerraformTask@5
       displayName: Terraform init task
       inputs:
@@ -22,14 +24,18 @@ jobs:
         backendAzureRmStorageAccountName: 'pankajstrg'
         backendAzureRmContainerName: 'streamlinecont'
         backendAzureRmKey: 'terraform.tfstate'
-
-    
+  
+  - job: validatejob
+    displayName: Validate job
+    steps:    
     - task: TerraformTask@5
       displayName: Terraform Validate Task
       inputs:
         provider: 'azurerm'
         command: 'validate'
-
+  - job: Planjob
+    displayName: Plan job
+    steps:    
     - task: TerraformTask@5
       displayName: Plan Task
       inputs:
@@ -38,13 +44,36 @@ jobs:
         environmentServiceNameAzureRM: 'code stremline-sc'
 
   - job: ManualValidation
-    steps:
-    displayName: Manual Validation step
-    dependsOn: Plan Task
+    displayName: Manual Validation Step
+    dependsOn: initvalidateplanjob
     pool: server
+    steps:
+    - task: ManualValidation@1
+      displayName: Manual Approval Before Apply
+      inputs:
+        instructions: 'Please review the Terraform plan and approve to continue.'
+        notifyUsers: 'pankajsharma.universe@gmail.com'
+        approvers: 'pankajsharma.universe@gmail.com'
+
+  - job: initjob
+    displayName: Init Job
+    steps:
+    - task: TerraformTask@5
+      displayName: Terraform init task
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'code stremline-sc'
+        backendAzureRmStorageAccountName: 'pankajstrg'
+        backendAzureRmContainerName: 'streamlinecont'
+        backendAzureRmKey: 'terraform.tfstate'
+ 
+  - job: applyjob
+    displayName: Apply Job
+    steps:
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        environmentServiceNameAzureRM: 'code stremline-sc'
     
-  - task: ManualValidation@1
-    inputs:
-      notifyUsers: 'pankajsharma.universe@gmail.com'
-      approvers: 'pankajsharma.universe@gmail.com'
-   
