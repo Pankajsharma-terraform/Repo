@@ -7,7 +7,7 @@ trigger: none
 jobs:
   - job: installerjob
     pool: Stream line project agent
-    displayName: Terraform installer
+    displayName: Terraform installer Job
     steps:
     - task: TerraformInstaller@1
       displayName: Terraform Install
@@ -17,7 +17,7 @@ jobs:
   - job: initvalidateplanjob
     pool: Stream line project agent
     dependsOn: installerjob
-    displayName: Init Job
+    displayName: Init, Validate, Plan Job
     steps:
     - task: TerraformTask@5
       displayName: Terraform init task
@@ -28,23 +28,15 @@ jobs:
         backendAzureRmStorageAccountName: 'pankajstrg'
         backendAzureRmContainerName: 'streamlinecont'
         backendAzureRmKey: 'terraform.tfstate'
-  
-  # - job: validatejob
-  #   displayName: Validate job
-  #   pool: Stream line project agent
-  #   dependsOn: initjob
-     
+      
     - task: TerraformTask@5
       displayName: Terraform Validate Task
       inputs:
         provider: 'azurerm'
         command: 'validate'
-  # - job: Planjob
-  #   displayName: Plan job
-  #   pool: Stream line project agent
-  #   dependsOn: validatejob 
+  
     - task: TerraformTask@5
-      displayName: Plan Task
+      displayName: Terraform Plan Task
       inputs:
         provider: 'azurerm'
         command: 'plan'
@@ -59,11 +51,11 @@ jobs:
       displayName: Manual Approval Before Apply
       inputs:
         instructions: 'Please review the Terraform plan and approve to continue.'
-        notifyUsers: 'pankajsharma.universe@gmail.com'
-        approvers: 'pankajsharma.universe@gmail.com'
+        notifyUsers: 'pankajsharma.universe@outlook.com'
+        approvers: 'pankajsharma.universe@outlook.com'
 
   - job: initjobaftermanualvalidation
-    displayName: Init Job
+    displayName: Init & Apply After Manual Approval
     dependsOn: ManualValidation
     pool: Stream line project agent
     steps:
@@ -77,11 +69,7 @@ jobs:
         backendAzureRmContainerName: 'streamlinecont'
         backendAzureRmKey: 'terraform.tfstate'
  
-  # - job: applyjob
-  #   dependsOn: initjobaftermanualvalidation
-  #   displayName: Apply Job
-  #   pool: Stream line project agent
-   
+ 
     - task: TerraformTask@5
       inputs:
         provider: 'azurerm'
