@@ -31,7 +31,7 @@ jobs:
   - job: validatejob
     displayName: Validate job
     pool: Stream line project agent
-    dependsOn: initjob
+    # dependsOn: initjob
     steps:    
     - task: TerraformTask@5
       displayName: Terraform Validate Task
