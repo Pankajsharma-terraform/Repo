@@ -6,13 +6,16 @@ pool: Stream line project agent
 
 jobs:
   - job: installerjob
+    pool: Stream line project agent
     displayName: Terraform installer
     steps:
     - task: TerraformInstaller@1
       displayName: Terraform Install
       inputs:
         terraformVersion: 'latest'
-  - job: initvalidateplanjob
+  - job: initjob
+    pool: Stream line project agent
+    dependsOn: installerjob
     displayName: Init Job
     steps:
     - task: TerraformTask@5
@@ -27,6 +30,8 @@ jobs:
   
   - job: validatejob
     displayName: Validate job
+    pool: Stream line project agent
+    dependsOn: initjob
     steps:    
     - task: TerraformTask@5
       displayName: Terraform Validate Task
@@ -35,6 +40,8 @@ jobs:
         command: 'validate'
   - job: Planjob
     displayName: Plan job
+    pool: Stream line project agent
+    dependsOn: validatejob
     steps:    
     - task: TerraformTask@5
       displayName: Plan Task
@@ -55,8 +62,10 @@ jobs:
         notifyUsers: 'pankajsharma.universe@gmail.com'
         approvers: 'pankajsharma.universe@gmail.com'
 
-  - job: initjob
+  - job: initjobaftermanualvalidation
     displayName: Init Job
+    dependsOn: ManualValidation
+    pool: Stream line project agent
     steps:
     - task: TerraformTask@5
       displayName: Terraform init task
@@ -69,8 +78,9 @@ jobs:
         backendAzureRmKey: 'terraform.tfstate'
  
   - job: applyjob
-    dependsOn: ManualValidation
+    dependsOn: initjobaftermanualvalidation
     displayName: Apply Job
+    pool: Stream line project agent
     steps:
     - task: TerraformTask@5
       inputs:
