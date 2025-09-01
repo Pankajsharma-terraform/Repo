@@ -1,0 +1,50 @@
+trigger: none
+# - main
+# - features/*
+
+pool: Stream line project agent
+
+jobs:
+  - job: installerjob
+    displayName: Terraform installer
+    steps:
+    - task: TerraformInstaller@1
+      displayName: Terraform Install
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: Terraform init task
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'code stremline-sc'
+        backendAzureRmStorageAccountName: 'pankajstrg'
+        backendAzureRmContainerName: 'streamlinecont'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    
+    - task: TerraformTask@5
+      displayName: Terraform Validate Task
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+
+    - task: TerraformTask@5
+      displayName: Plan Task
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'code stremline-sc'
+
+  - job: ManualValidation
+    steps:
+    displayName: Manual Validation step
+    dependsOn: Plan Task
+    pool: server
+    
+  - task: ManualValidation@1
+    inputs:
+      notifyUsers: 'pankajsharma.universe@gmail.com'
+      approvers: 'pankajsharma.universe@gmail.com'
+   
